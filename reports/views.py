@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from rest_framework.decorators import api_view
 
-def test(request):
+
+@api_view(['POST'])
+def submit_report(request):
     return HttpResponse(str(request.body))

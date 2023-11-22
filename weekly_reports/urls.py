@@ -5,5 +5,5 @@ import reports.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('reports/weekly/', reports.views.test)
+    path('reports/weekly/', reports.views.submit_report)
 ]
