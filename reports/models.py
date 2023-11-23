@@ -15,7 +15,7 @@ class Group(models.Model):
 class Intern(models.Model):
     name = models.CharField(verbose_name="ФИО", max_length=200, null=False, blank=False)
     group = models.ForeignKey(Group, on_delete=models.PROTECT, related_name="interns")
-    telegram_id = models.IntegerField("ID Телеграм",)
+    telegram_id = models.IntegerField("ID Телеграм", null=True, blank=True)
 
     is_active = models.BooleanField("Активен как стажёр", default=True)
 
