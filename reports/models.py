@@ -72,12 +72,39 @@ class TaskInProgress(InProgress):
     task = models.ForeignKey(Task, related_name="in_progress", on_delete=models.PROTECT)
     report = models.ForeignKey("Report", related_name="tasks", on_delete=models.PROTECT)
 
+    url = models.URLField("Ссылка на задачу в JIRA", blank=True)
+
     class Meta:
         verbose_name = "Практическая задача в работе"
         verbose_name_plural = "Практические задачи в работе"
 
     def __str__(self):
         return f"{self.task.title} - в работе, id#{self.id}"
+
+
+class Project(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Название проекта")
+
+    class Meta:
+        verbose_name = "Реальный проект"
+        verbose_name_plural = "Реальные проекты"
+
+    def __str__(self):
+        return f"{self.title} - реальный проект"
+
+
+class ProjectInProgress(InProgress):
+    project = models.ForeignKey(Project, related_name="in_progress", on_delete=models.PROTECT)
+    report = models.ForeignKey("Report", related_name="projects", on_delete=models.PROTECT)
+
+    comments = models.TextField("Доп. информация")
+
+    class Meta:
+        verbose_name = "Реальный проект в работе"
+        verbose_name_plural = "Реальные проекты в работе"
+
+    def __str__(self):
+        return f"{self.project.title} - в работе, id#{self.id}"
 
 
 class Report(models.Model):
@@ -90,16 +117,12 @@ class Report(models.Model):
     other_courses = models.TextField("Информация об остальных курсах", blank=True)
     tasks_count = models.PositiveIntegerField("Кол-во задач в работе", null=True, blank=True)
 
-    project_name = ...
-    project_start_date = ...
-    project_comments = ...
+    time_spent = models.FloatField("Часы, затраченные на работу")
 
-    time_spent = ...
-
-    progress_comment = ...
-    next_week_url = ...
-    difficulties = ...
-    additional_comment = ...
+    progress_comment = models.TextField("Подробности прогресса работы", blank=True)
+    next_week_url = models.URLField("Ссылка на задачу для дальнейшей работы", blank=True)
+    difficulties = models.TextField("Трудности в течение недели", blank=True)
+    additional_comment = models.TextField("Прочие вопросы", blank=True)
 
     class Meta:
         verbose_name = "Отчёт"

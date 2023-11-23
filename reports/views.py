@@ -6,4 +6,6 @@ from rest_framework.decorators import api_view
 
 @api_view(['POST'])
 def submit_report(request):
-    return HttpResponse(str(request.body))
+    print(request.headers)
+    print(request.data)
+    return HttpResponse(500)
